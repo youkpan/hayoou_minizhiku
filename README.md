@@ -24,6 +24,9 @@ Mini 智库 ，比手掌还小的家居设备（已拆外壳）
 
 只需要连接 USB 到Mini智库即可
 
+现已在淘宝体验价发售：
+［https://item.taobao.com/item.htm?id=616564017531](https://item.taobao.com/item.htm?id=616564017531)
+
 处理结果，使用权重排序算法，剔除无效关键词
 
 采用人工智能的OCR算法和分词统计算法
