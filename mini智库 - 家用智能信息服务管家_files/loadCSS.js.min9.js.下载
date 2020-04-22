@@ -1,0 +1,6 @@
+/*!
+loadCSS: load a CSS file asynchronously.
+[c]2015 @scottjehl, Filament Group, Inc.
+Licensed MIT
+*/
+(function(a){a.loadCSS=function(b,h,c){var i=a.document;var j=i.createElement("link");var d;if(h){d=h}else{var g;if(i.querySelectorAll){g=i.querySelectorAll("style,link[rel=stylesheet],script")}else{g=(i.body||i.getElementsByTagName("head")[0]).childNodes}d=g[g.length-1]}var e=i.styleSheets;j.rel="stylesheet";j.href=b;j.media="only x";d.parentNode.insertBefore(j,(h?d:d.nextSibling));var f=function(k){var n;for(var m=0;m<e.length;m++){var l=e[m];if(l.href&&l.href===j.href){n=true}}if(n){k()}else{setTimeout(function(){f(k)})}};j.onloadcssdefined=f;f(function(){j.media=c||"all"});return j}}(this));

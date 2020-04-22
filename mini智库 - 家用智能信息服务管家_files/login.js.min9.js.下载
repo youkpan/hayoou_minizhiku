@@ -1,0 +1,1 @@
+function validateLoginForm(a){if(!a){return false}$(a).ajaxSubmit({success:function(b){if(b=="OK"){a.submit()}else{alert(_t("_PROFILE_ERR"))}}})};

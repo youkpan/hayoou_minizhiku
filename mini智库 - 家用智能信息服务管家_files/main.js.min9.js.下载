@@ -1,0 +1,1 @@
+function PushEditAtBlogOverview(a,c,b){$("#edited_blog_div #EditBlogID").val(a);$("#edited_blog_div #Description").val(c);$("#edited_blog_div #EOwnerID").val(b);$("#edited_blog_div").slideToggle("slow")}function BlogpostImageDelete(b,a){$.post(b,function(c){if(c==1){$("#"+a).remove()}else{$("#"+a).html(c)}})};

@@ -1,0 +1,2 @@
+#!bin/bash -e
+/data/apps/wechat/get_moment_loop >/dev/null 2>&1 & 

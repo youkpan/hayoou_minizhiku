@@ -1,0 +1,30 @@
+#!/bin/bash
+LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/python3/lib
+GST_GL_PLATFORM=egl
+XDG_SESSION_ID=c10
+USER=root
+PWD=/data/apps/
+HOME=/data/apps
+XDG_DATA_DIRS=/usr/local/share:/usr/share:/var/lib/snapd/desktop
+SSH_TTY=/dev/pts/0
+MAIL=/var/mail/root
+GST_GL_API=gles2
+TERM=xterm
+SHELL=/bin/bash
+SHLVL=1
+LOGNAME=root
+DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/0/bus
+XDG_RUNTIME_DIR=/run/user/0
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/usr/local/python3/bin
+LESSOPEN=| /usr/bin/lesspipe %s
+_=/usr/bin/env
+
+ldconfig
+cd /data/apps/wechat
+rm getting_moment
+py3 process_moment.py >/dev/null 2>&1 &
+#echo "3" >/data/apps/wechat/init1
+while true; do
+py3 get_moment.py >/dev/null 2>&1 
+sleep 5
+done
