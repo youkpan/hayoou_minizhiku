@@ -1,10 +1,9 @@
 ##划时代的家用智能信息服务系统
 ![](https://raw.githubusercontent.com/youkpan/hayoou_minizhiku/master/%E5%9B%BE%E7%89%87/Mini%E6%99%BA%E5%BA%93.jpg)  
-
-
 来了！
 
 Mini 智库 ，比手掌还小的家居设备（已拆外壳）
+产品图文介绍：[http://hayoou.com/minizk](http://hayoou.com/minizk)
 
 *帮助你解决日常信息收集，个人信息整理
 
