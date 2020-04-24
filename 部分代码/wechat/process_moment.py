@@ -30,7 +30,7 @@ except Exception as e:
 
 print("ip:",ip)
 #exit()      
-ignorlist = ["朋友圈","天前","昨天","微信","每节","总活","汴昏","每入","小时"]
+ignorlist = ["朋友圈","天前","昨天","微信","每节","总活","汴昏","每入","小时","分钟"]
 max_files = 1000
 user="orangepi4_1"
 withWeight = True
@@ -104,20 +104,27 @@ except Exception as e:
 
 content0 = content
 content0_pictures_text = {} #content0.split("-------\n")
+content = content.replace("\n","")
+content = content.replace("-------","\n")
 
 for i in range(max_files):
     try:
         content1 = open(path +"moment_ocr/"+str(i)+".txt", 'r').read()
         #print(path +"/moment_ocr/"+str(i)+".txt",content)
+        content1 = content1.replace("\n!","\n")
+        content1 = content1.replace("\n:","\n")
+        content1 = content1.replace("\n：","\n")
+        content1 = content1.replace("\n！","\n")
+        content1 = content1.replace("\n{","\n")
+        content1 = content1.replace("\n|","\n")
         content0_pictures_text[i] =content1.replace("\n","")
+        print(content0_pictures_text[i])
         if content0 =="":
-            content += content0_pictures_text[i]
+            content += content0_pictures_text[i]+"\n"
     except Exception as e:
         pass
 
 content0 = content
-content = content.replace("\n","")
-content = content.replace("-------","\n")
 
 tags = jieba.analyse.extract_tags(content, topK=topK, withWeight=withWeight)
 new_word_add =""
@@ -151,7 +158,7 @@ for tag in tags:
         except Exception as e:
             outstring = "%s\t\t  次数：%s  \t\t %s \t\t 权重: %f" % (word,count,new_word_s,weight)
             print(outstring)
-            outstring = "%s\t  次数：%s  \t %s \t 图片：%s \t 权重: %f" % (word,count,new_word_s,picture_ids,weight)
+            outstring = "%s\t  次数：%s  \t %s \t 图片：%s \t 权重： %f" % (word,count,new_word_s,picture_ids,weight)
             outstringall += outstring +"\n"
 
 #open(moment_tags_file, 'a+').write(new_word_add)
@@ -160,6 +167,11 @@ for w in moment_tags_dict:
     ftags.write(w+"\n")
 
 open("moment_result.txt", 'w').write(outstringall)
+outstringall2 = outstringall.replace("\t",",")
+outstringall2 = outstringall.replace("次数：","次数：,")
+outstringall2 = outstringall.replace("权重：","权重：,")
+open("moment_result.csv", 'w').write(outstringall2)
+
 print("结果写入：/data/apps/wechat/moment_result.txt")
 
 def runcmd(command,timeout=20):
@@ -187,7 +199,7 @@ else:
     
 runcmd(["adb start-server" ])#
 adb_cmd("push",device,"/data/apps/wechat/moment_result.txt /sdcard/wechat/moment_result.txt")
-
+adb_cmd("push",device,"/data/apps/wechat/moment_result.csv /sdcard/wechat/moment_result.csv")
 
 try:
     values = {'moment_result' : outstringall}

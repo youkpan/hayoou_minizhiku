@@ -75,14 +75,15 @@ try:
 	#lock screen
 	adb_cmd("shell",device,"input keyevent 26")
 	print("识别文字中。。 大约需要：",72 *screenshots_cnt,"秒")
-	runcmd(["cd /data/tgz/CHINESE-OCR ;py3 wechat_OCR.py"],timeout=100 *screenshots_cnt	)
+	runcmd(["rm /data/apps/wechat/moment_ocr/* "] )
+	runcmd(["cd /data/apps/chinese_ocr ;py3 wechat_OCR.py"],timeout=100 *screenshots_cnt	)
 	 
 except Exception as e:
 	print(e)
 except KeyboardInterrupt as e:
 	print(e)
 
-runcmd(["rm /data/apps/wechat/moment_ocr/* "] )
+
 runcmd(["py3 process_moment.py -k500 -w1"])
 
 
