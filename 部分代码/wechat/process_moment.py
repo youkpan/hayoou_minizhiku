@@ -129,7 +129,7 @@ for i in range(max_files):
 
         if yestoday_moment > 10:
             break
-            
+
         content0_pictures_text[i] = content1
         print(content0_pictures_text[i])
         if content0 =="":
@@ -142,6 +142,7 @@ content0 = content
 tags = jieba.analyse.extract_tags(content, topK=topK, withWeight=withWeight)
 new_word_add =""
 outstringall = ""
+outstring_csv = ""
 print("len(content):",len(content))
 upload_picture_ids = []
 for tag in tags:
@@ -171,8 +172,10 @@ for tag in tags:
         except Exception as e:
             outstring = "%s\t\t  次数：%s  \t\t %s \t\t 权重: %f" % (word,count,new_word_s,weight)
             print(outstring)
-            outstring = "%s\t  次数：%s  \t %s \t 图片：%s \t 权重： %f" % (word,count,new_word_s,picture_ids,weight)
+            outstring = "%s \t 次数：%s  \t %s \t 权重： %f \t 图片：%s " % (word,count,new_word_s,weight,picture_ids)
             outstringall += outstring +"\n"
+            outstring = "%s , 次数, %s , %s , 权重, %f , 图片：%s " % (word,count,new_word_s,weight,picture_ids)
+            outstring_csv += outstring +"\n"
 
 #open(moment_tags_file, 'a+').write(new_word_add)
 ftags= open(moment_tags_file, 'w')
@@ -180,12 +183,9 @@ for w in moment_tags_dict:
     ftags.write(w+"\n")
 
 open("moment_result.txt", 'w').write(outstringall)
-outstringall2 = outstringall.replace("\t",",")
-outstringall2 = outstringall.replace("次数：","次数：,")
-outstringall2 = outstringall.replace("权重：","权重：,")
-open("moment_result.csv", 'w').write(outstringall2)
+open("moment_result.csv", 'w').write(outstring_csv)
 
-print("结果写入：/data/apps/wechat/moment_result.txt")
+print("结果写入：/data/apps/wechat/moment_result.csv")
 
 def runcmd(command,timeout=20):
     #print(command)
