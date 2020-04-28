@@ -3,7 +3,7 @@ import subprocess
 import time
 import datetime
 
-screenshots_cnt = 300
+screenshots_cnt = 1400
 
 def runcmd(command,timeout=20):
     #print(command)
@@ -42,6 +42,7 @@ adb_cmd("push",device,"/var/www/hayoou/minizhiku/wechat/result/moment_result.htm
 
 fname =  "/data/apps/wechat/getting_moment"
 if os.path.isfile(fname):
+	print("another porcess is runing,del:"+fname)
 	exit()
 fo = open(fname, "a+")
 fo.write(  "1\n" )
@@ -68,21 +69,36 @@ try:
 	adb_cmd("shell",device,"mkdir -p /sdcard/wechat/screenshots")
 	runcmd(["mkdir /data/apps/wechat/screenshots -p"])
 	runcmd(["rm /data/apps/wechat/screenshots/* -rf"])
-
+	disconnect_cnt =0
+	screenshot_captured = 0
 	for i in range(screenshots_cnt):
 		print("第 ",i,"张 截图" ,("%2.2f")%(i/screenshots_cnt*100),"%")
 		adb_cmd("shell",device,"input swipe 1 "+str(int((1-300/2100)*height)) + " 1 "+str(int((300/2100)*height))+" 1000")
 		time.sleep(1)
 		adb_cmd("shell",device,"/system/bin/screencap -p /sdcard/wechat/screenshots/t.png")
 		#adb_cmd("shell",device,"cp /sdcard/wechat/screenshots/t.png  /sdcard/wechat/screenshots/"+str(i)+".png")
-		adb_cmd( "pull",device,"/sdcard/wechat/screenshots/t.png /data/apps/wechat/screenshots/"+str(i)+".png ")
+		out = adb_cmd( "pull",device,"/sdcard/wechat/screenshots/t.png /data/apps/wechat/screenshots/"+str(i)+".png ")
+		#print(out)
+
+		if out.stdout.find("error")!=-1:
+			print("disconnect")
+			disconnect_cnt +=1
+			if disconnect_cnt > 2:
+				break
+		else:
+			screenshot_captured += 1
 
 	#lock screen
 	adb_cmd("shell",device,"input keyevent 26")
-	print("识别文字中。。 大约需要：",72 *screenshots_cnt,"秒")
-	runcmd(["rm /data/apps/wechat/moment_ocr/* "] )
-	runcmd(["cd /data/apps/chinese_ocr ;py3 wechat_OCR.py"],timeout=100 *screenshots_cnt	)
-	 
+	
+	if screenshot_captured > 10:
+		print("识别文字中。。 大约需要：",17 *screenshot_captured,"秒")
+		runcmd(["rm -f /data/apps/wechat/moment_ocr/* "] )
+		#runcmd(["cd /data/apps/chinese_ocr ;py3 wechat_OCR.py"],timeout=100 *screenshots_cnt	)
+		runcmd(["cd /data/apps/wechat ;py3 tesseract.py"],timeout=50 *screenshot_captured	)
+	else:
+		print("低于10张截图 不处理")
+		 
 except Exception as e:
 	print(e)
 except KeyboardInterrupt as e:

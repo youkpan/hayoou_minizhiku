@@ -31,7 +31,7 @@ except Exception as e:
 print("ip:",ip)
 #exit()      
 ignorlist = ["朋友圈","天前","昨天","微信","每节","总活","汴昏","每入","小时","分钟"]
-max_files = 1000
+max_files = 1500
 user="orangepi4_1"
 withWeight = True
 topK = 500
@@ -97,27 +97,40 @@ with open(moment_tags_file, 'r') as f:
 
 print("moment_tags_dict len",len(moment_tags_dict))
 content = ""
+'''
 try:
     content = open(file_name, 'r').read()
 except Exception as e:
     pass
-
+'''
 content0 = content
 content0_pictures_text = {} #content0.split("-------\n")
 content = content.replace("\n","")
 content = content.replace("-------","\n")
-
+yestoday_moment = 0
 for i in range(max_files):
     try:
         content1 = open(path +"moment_ocr/"+str(i)+".txt", 'r').read()
         #print(path +"/moment_ocr/"+str(i)+".txt",content)
+        '''
         content1 = content1.replace("\n!","\n")
         content1 = content1.replace("\n:","\n")
         content1 = content1.replace("\n：","\n")
         content1 = content1.replace("\n！","\n")
         content1 = content1.replace("\n{","\n")
         content1 = content1.replace("\n|","\n")
-        content0_pictures_text[i] =content1.replace("\n","")
+        '''
+        content1  = content1.replace("\n","")
+        if content1.find("2天前")!= -1 :
+            yestoday_moment += 1
+            print("yestoday_moment",yestoday_moment)
+        else
+            yestoday_moment = 0
+
+        if yestoday_moment > 10:
+            break
+            
+        content0_pictures_text[i] = content1
         print(content0_pictures_text[i])
         if content0 =="":
             content += content0_pictures_text[i]+"\n"
