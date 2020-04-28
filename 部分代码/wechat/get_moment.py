@@ -35,6 +35,11 @@ if devicesret.returncode == 0:
 		exit()
 else:
 	exit()
+
+adb_cmd("push",device,"/data/apps/wechat/moment_result.txt /sdcard/wechat/moment_result_old.txt")
+adb_cmd("push",device,"/data/apps/wechat/moment_result.csv /sdcard/wechat/moment_result_old.csv")
+adb_cmd("push",device,"/var/www/hayoou/minizhiku/wechat/result/moment_result.html /sdcard/wechat/moment_result_old.html")
+
 fname =  "/data/apps/wechat/getting_moment"
 if os.path.isfile(fname):
 	exit()
@@ -69,20 +74,21 @@ try:
 		adb_cmd("shell",device,"input swipe 1 "+str(int((1-300/2100)*height)) + " 1 "+str(int((300/2100)*height))+" 1000")
 		time.sleep(1)
 		adb_cmd("shell",device,"/system/bin/screencap -p /sdcard/wechat/screenshots/t.png")
-		adb_cmd("shell",device,"cp /sdcard/wechat/screenshots/t.png  /sdcard/wechat/screenshots/"+str(i)+".png")
+		#adb_cmd("shell",device,"cp /sdcard/wechat/screenshots/t.png  /sdcard/wechat/screenshots/"+str(i)+".png")
 		adb_cmd( "pull",device,"/sdcard/wechat/screenshots/t.png /data/apps/wechat/screenshots/"+str(i)+".png ")
 
 	#lock screen
 	adb_cmd("shell",device,"input keyevent 26")
 	print("识别文字中。。 大约需要：",72 *screenshots_cnt,"秒")
-	runcmd(["cd /data/tgz/CHINESE-OCR ;py3 wechat_OCR.py"],timeout=100 *screenshots_cnt	)
+	runcmd(["rm /data/apps/wechat/moment_ocr/* "] )
+	runcmd(["cd /data/apps/chinese_ocr ;py3 wechat_OCR.py"],timeout=100 *screenshots_cnt	)
 	 
 except Exception as e:
 	print(e)
 except KeyboardInterrupt as e:
 	print(e)
 
-runcmd(["rm /data/apps/wechat/moment_ocr/* "] )
+
 runcmd(["py3 process_moment.py -k500 -w1"])
 
 
