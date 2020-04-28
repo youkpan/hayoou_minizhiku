@@ -124,7 +124,7 @@ for i in range(max_files):
         if content1.find("2天前")!= -1 :
             yestoday_moment += 1
             print("yestoday_moment",yestoday_moment)
-        else
+        else:
             yestoday_moment = 0
 
         if yestoday_moment > 10:
