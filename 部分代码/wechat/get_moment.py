@@ -35,6 +35,11 @@ if devicesret.returncode == 0:
 		exit()
 else:
 	exit()
+
+adb_cmd("push",device,"/data/apps/wechat/moment_result.txt /sdcard/wechat/moment_result_old.txt")
+adb_cmd("push",device,"/data/apps/wechat/moment_result.csv /sdcard/wechat/moment_result_old.csv")
+adb_cmd("push",device,"/var/www/hayoou/minizhiku/wechat/result/moment_result.html /sdcard/wechat/moment_result_old.html")
+
 fname =  "/data/apps/wechat/getting_moment"
 if os.path.isfile(fname):
 	exit()
@@ -69,7 +74,7 @@ try:
 		adb_cmd("shell",device,"input swipe 1 "+str(int((1-300/2100)*height)) + " 1 "+str(int((300/2100)*height))+" 1000")
 		time.sleep(1)
 		adb_cmd("shell",device,"/system/bin/screencap -p /sdcard/wechat/screenshots/t.png")
-		adb_cmd("shell",device,"cp /sdcard/wechat/screenshots/t.png  /sdcard/wechat/screenshots/"+str(i)+".png")
+		#adb_cmd("shell",device,"cp /sdcard/wechat/screenshots/t.png  /sdcard/wechat/screenshots/"+str(i)+".png")
 		adb_cmd( "pull",device,"/sdcard/wechat/screenshots/t.png /data/apps/wechat/screenshots/"+str(i)+".png ")
 
 	#lock screen
