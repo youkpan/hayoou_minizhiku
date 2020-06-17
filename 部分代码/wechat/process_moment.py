@@ -30,7 +30,7 @@ except Exception as e:
 
 print("ip:",ip)
 #exit()      
-ignorlist = ["朋友圈","天前","昨天","微信","每节","总活","汴昏","每入","小时","分钟"]
+ignorlist = ["朋友圈","昨天","微信","每节","总活","汴昏","每入","小时","分钟"]
 max_files = 1500
 user="orangepi4_1"
 withWeight = True
@@ -121,7 +121,7 @@ for i in range(max_files):
         content1 = content1.replace("\n|","\n")
         '''
         content1  = content1.replace("\n","")
-        if content1.find("2天前")!= -1 :
+        if content1.find("3天前")!= -1 :
             yestoday_moment += 1
             print("yestoday_moment",yestoday_moment)
         else:
